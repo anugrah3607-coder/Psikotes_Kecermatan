@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Psikotes Kecermatan POLRI</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --surface:#ffffff;
+      --surface2:#fafafa;
+      --text:#111111;
+      --muted:#5a5a5a;
+      --line:#e6e6e6;
+      --accent:#d11a2a;
+      --accent2:#b31422;
+      --shadow: 0 10px 26px rgba(0,0,0,.08);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "DejaVu Sans", "Segoe UI Symbol", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:var(--sans);color:var(--text);background:var(--bg);}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:16px;}
+    .brand{display:flex;align-items:center;gap:12px;}
+    .logo{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+
+  display:grid;
+  place-items:center;
+
+  background:#fff;
+  color:#d11b1b;
+  border:3px solid #d11b1b;
+
+  font-weight:700;
+  font-size:22px;
+  line-height:1;
+}
+    .brand h1{font-size:16px;margin:0;letter-spacing:.2px;}
+    .brand p{margin:2px 0 0;font-size:12px;color:var(--muted);}
+    button{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;transition:transform .05s ease,background .15s ease,border-color .15s ease;user-select:none;font-weight:650;letter-spacing:.2px;}
+    button:hover{background:var(--surface2);}
+    button:active{transform:translateY(1px);}
+    button:focus{outline:2px solid rgba(209,26,42,.25);outline-offset:2px;}
+    button.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+    button.primary:hover{background:var(--accent2);border-color:var(--accent2);}
+    button.secondary{background:transparent;border-color:var(--line);}
+    button.danger{background:transparent;border-color:rgba(209,26,42,.35);color:var(--accent);}
+    button.danger:hover{background:rgba(209,26,42,.06);border-color:rgba(209,26,42,.55);}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+    .hd{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;}
+    .hd .title{font-size:14px;font-weight:800;}
+    .hd .sub{font-size:12px;color:var(--muted);margin-top:2px;}
+    .bd{padding:16px;}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);font-size:12px;color:var(--muted);}
+    .pill strong{color:var(--text);}
+    .note{font-size:12px;color:var(--muted);line-height:1.45;}
+    .divider{height:1px;background:var(--line);margin:12px 0;}
+    .hidden{display:none!important;}
+
+    .test-shell{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;align-items:stretch;}
+    .timer{font-size:44px;font-family:var(--mono);letter-spacing:.04em;}
+    .kunci{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+    .kunci .k{border:1px solid var(--line);background:var(--surface2);border-radius:14px;padding:10px 10px 12px;text-align:center;}
+    .k .lbl{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:800;letter-spacing:.2px;}
+    .k .ch{font-size:28px;font-family:var(--mono);}
+    .soal{display:flex;align-items:center;justify-content:center;min-height:140px;background:#fff;border:2px solid rgba(209,26,42,.18);border-radius:18px;}
+    .soal .chars{font-size:56px;font-family:var(--mono);letter-spacing:.16em;padding:18px;text-align:center;}
+    .answers{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+    .answers button{padding:14px 10px;border-radius:16px;font-size:16px;font-family:var(--mono);background:#fff;border:2px solid rgba(0,0,0,.08);}
+    .answers button:hover{border-color:rgba(209,26,42,.35);background:rgba(209,26,42,.03);}
+    .answers button .small{display:block;margin-top:4px;font-size:12px;color:var(--muted);font-family:var(--sans);letter-spacing:.1px;}
+
+    .center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:22px 10px 10px;text-align:center;}
+    .countdown{font-size:72px;font-family:var(--mono);letter-spacing:.02em;color:var(--accent);}
+
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .stat{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:12px 14px;}
+    .stat .n{font-size:22px;font-family:var(--mono);margin-top:4px;}
+    .stat .k{font-size:12px;color:var(--muted);}
+    .list{display:flex;flex-direction:column;gap:10px;}
+    .item{padding:12px 12px;border-radius:16px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .item .left{display:flex;flex-direction:column;gap:2px;}
+    .item .left .t{font-weight:800;font-size:13px;}
+    .item .left .s{font-size:12px;color:var(--muted);}
+    .item .right{display:flex;gap:10px;align-items:center;}
+    .chip{padding:6px 10px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:var(--muted);background:var(--surface2);}
+    .chart-wrap{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;}
+    .chart-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:8px;}
+    .chart-title .h{font-weight:800;font-size:13px;}
+    .chart-title .p{font-size:12px;color:var(--muted);}
+    svg{width:100%;height:auto;display:block;}
+    .footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:center;}
+
+    .paused-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid rgba(209,26,42,.25);background:rgba(209,26,42,.06);color:var(--accent);font-size:12px;font-weight:800;}
+    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.78);border-radius:18px;border:2px dashed rgba(209,26,42,.35);font-weight:900;color:var(--accent);letter-spacing:.2px;font-size:20px;}
+    .relative{position:relative;}
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr;}
+      .soal .chars{font-size:46px;}
+      .timer{font-size:38px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">R</div>
+      
+        <div>
+          <h1>PSIKOTES KECERMATAN POLISI</h1>
+          <p>Angka, Huruf, Simbol, Campur</p>
+        </div>
+      </div>
+      <div class="row">
+        <button class="secondary" id="btnHome">Kembali</button>
+        <button class="secondary" id="btnHistory">History</button>
+      </div>
+    </header>
+
+    <section id="screenHome" class="grid">
+      <div class="card">
+        <div class="hd">
+          <div>
+            <div class="title">Mulai Latihan</div>
+            <div class="sub">10 ronde × 60 detik, jeda 10 detik.</div>
+          </div>
+        </div>
+        <div class="bd">
+          <div class="row" style="margin-bottom:10px;">
+            <span class="pill"><strong>Format:</strong> Soal tampil 5 karakter dan hilang 1</span>
+            <span class="pill"><strong>Output:</strong> Total skor dan grafik persesi</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row" style="align-items:center; gap:14px;">
+            <div style="min-width: 240px;">
+              <div class="note" style="margin-bottom:6px;"><b>Mode</b></div>
+              <select id="modeSelect" style="width:100%; padding: 12px 12px; border-radius: 12px; border:1px solid var(--line); background: #fff; color: var(--text);">
+                <option value="letters">Huruf (Bintara)</option>
+                <option value="numbers">Angka (Tamtama)</option>
+                <option value="symbols">Simbol (Akpol)</option>
+                <option value="mixed">Campur (Bintara/Akpol)</option>
+              </select>
+              <div class="note" style="margin-top:8px;">
+                Mode Campur mengacak jenis soal setiap ronde.
+              </div>
+            </div>
+
+            <div style="flex:1; min-width: 260px;">
+              <div class="note" style="margin-bottom:6px;"><b>Prosedur</b></div>
+              <div class="two-col">
+                <div class="stat"><div class="k">Ronde</div><div class="n">10</div></div>
+                <div class="stat"><div class="k">Durasi / Ronde</div><div class="n">60 detik</div></div>
+                <div class="stat"><div class="k">Jeda</div><div class="n">10 detik</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button id="btnStart" class="primary" style="padding: 12px 16px;">Mulai</button>
+            <button class="secondary" id="btnHow" style="padding: 12px 16px;">Cara Kerja</button>
+          </div>
+
+          <div id="howBox" class="hidden" style="margin-top:12px;">
+            <div class="note">
+              <b>Cara kerja:</b><br/>
+              1) Setiap ronde dibuat <b>5 karakter kunci</b> (A–E).<br/>
+              2) Soal menampilkan <b>4 karakter</b> (diacak) dari kunci. Tugas: cari <b>yang tidak muncul</b> (1 dari 5).<br/>
+              3) Klik A–E sesuai karakter yang hilang.<br/>
+              4) Benar +1, salah +1 (untuk data), namun <b>skor total</b> hanya <b>jumlah benar</b>.<br/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd">
+          <div>
+            <div class="title">History</div>
+          </div>
+        </div>
+        <div class="bd">
+          <div class="two-col">
+            <div class="stat"><div class="k">Sesi terakhir (benar)</div><div class="n" id="lastScore">—</div></div>
+            <div class="stat"><div class="k">Best score (benar)</div><div class="n" id="bestScore">—</div></div>
+            <div class="stat"><div class="k">Total sesi tersimpan</div><div class="n" id="countSessions">0</div></div>
+            <div class="stat"><div class="k">Status</div><div class="n" style="font-size:14px; font-family: var(--sans);">Tanpa login</div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="note">History tersimpan di <b>localStorage</b>.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenBreak" class="card hidden">
+      <div class="hd">
+        <div>
+          <div class="title" id="breakTitle">Persiapan</div>
+          <div class="sub" id="breakSub">Mulai dalam…</div>
+        </div>
+        <div class="pill"><strong id="breakRoundLbl">Ronde 1/10</strong></div>
+      </div>
+      <div class="bd">
+        <div class="center">
+          <div class="countdown" id="breakCountdown">10</div>
+          <div class="note" id="breakNote">Siapkan posisi mouse.</div>
+          <div class="row" style="justify-content:center; margin-top:6px;">
+            <button id="btnSkipBreak" class="secondary">Skip jeda</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenTest" class="card hidden">
+      <div class="hd">
+        <div>
+          <div class="title">Kecermatan</div>
+          <div class="sub">Cari karakter yang hilang dari 5 kunci</div>
+        </div>
+        <div class="row">
+          <span class="pill"><strong id="lblRound">Ronde 1/10</strong></span>
+          <span class="pill"><strong id="lblType">Huruf</strong></span>
+          <span id="pausedBadge" class="paused-badge hidden">PAUSE</span>
+          <button id="btnPause" class="secondary">Pause</button>
+          <button id="btnStop" class="danger">Stop</button>
+        </div>
+      </div>
+
+      <div class="bd">
+        <div class="test-shell">
+          <div>
+            <div class="note">Waktu tersisa</div>
+            <div class="timer" id="timer">01:00.0</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div>
+            <div class="note"><b>Kunci Deret</b></div>
+            <div class="kunci" id="kunciGrid"></div>
+          </div>
+
+          <div class="relative">
+            <div class="soal" aria-live="polite">
+              <div class="chars" id="soalChars">— — — —</div>
+            </div>
+            <div id="pauseOverlay" class="overlay hidden">PAUSE</div>
+          </div>
+
+          <div>
+            <div class="note"><b>Klik jawaban </b></div>
+            <div class="answers" id="answerButtons"></div>
+          </div>
+
+        
+        </div>
+      </div>
+    </section>
+
+    <section id="screenResults" class="card hidden">
+      <div class="hd">
+        <div>
+          <div class="title">Hasil Sesi</div>
+          <div class="sub" id="resultsSub">Ringkasan</div>
+        </div>
+        <div class="row">
+          <button id="btnSaveAndHome" class="secondary">Kembali Home</button>
+          <button id="btnGoHistory" class="primary">History</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="two-col">
+          <div class="stat"><div class="k">Skor</div><div class="n" id="resCorrect">0</div></div>
+          <div class="stat"><div class="k">Total salah</div><div class="n" id="resWrong">0</div></div>
+          <div class="stat"><div class="k">Total attempt</div><div class="n" id="resAttempts">0</div></div>
+          <div class="stat"><div class="k">Mode</div><div class="n" style="font-size:14px; font-family: var(--sans);" id="resMode">—</div></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="chart-wrap">
+          <div class="chart-title">
+            <div>
+              <div class="h">Grafik Garis: Benar per Sesi</div>
+              <div class="p">10 Sesi</div>
+            </div>
+            <div class="pill"><strong>Max:</strong> <span id="chartMaxVal">0</span></div>
+          </div>
+          <div id="chart"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="note" style="margin-bottom:8px;"><b>Detail per ronde</b></div>
+        <div class="list" id="roundList"></div>
+
+        <div class="footer">Data tersimpan lokal di browser.</div>
+      </div>
+    </section>
+
+    <section id="screenHistory" class="card hidden">
+      <div class="hd">
+        <div>
+          <div class="title">History</div>
+          <div class="sub">Daftar sesi latihan (klik detail)</div>
+        </div>
+        <div class="row">
+          <button class="secondary" id="btnBackHome2">Kembali Home</button>
+          <button class="danger" id="btnClearHistory">Hapus history</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="list" id="historyList"></div>
+        <div id="historyEmpty" class="note hidden">Belum ada history. Mulai latihan dulu di Home.</div>
+      </div>
+    </section>
+
+    <section id="screenHistoryDetail" class="card hidden">
+      <div class="hd">
+        <div>
+          <div class="title" id="hdTitle">Detail Sesi</div>
+          <div class="sub" id="hdSub">—</div>
+        </div>
+        <div class="row">
+          <button class="secondary" id="btnBackHistory">Kembali</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="two-col">
+          <div class="stat"><div class="k">Total benar</div><div class="n" id="hdCorrect">0</div></div>
+          <div class="stat"><div class="k">Total salah</div><div class="n" id="hdWrong">0</div></div>
+          <div class="stat"><div class="k">Total attempt</div><div class="n" id="hdAttempts">0</div></div>
+          <div class="stat"><div class="k">Mode</div><div class="n" style="font-size:14px; font-family: var(--sans);" id="hdMode">—</div></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="chart-wrap">
+          <div class="chart-title">
+            <div>
+              <div class="h">Grafik Garis: Benar per Ronde</div>
+              <div class="p" id="hdChartP">—</div>
+            </div>
+          </div>
+          <div id="hdChart"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="note" style="margin-bottom:8px;"><b>Detail per ronde</b></div>
+        <div class="list" id="hdRoundList"></div>
+      </div>
+    </section>
+
+  </div>
+
+<script>
+(() => {
+  const CFG = { rounds: 10, roundMs: 60_000, breakMs: 10_000 };
+
+  const LETTERS = Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i));
+  const NUMBERS = Array.from({length: 10}, (_, i) => String(i));
+  const SYMBOLS = ["Δ","Λ","Π","Σ","Ω","Θ","Φ","Ψ","Γ","Ξ","Υ"];
+
+  const MODE_LABEL = { letters:"Huruf", numbers:"Angka", symbols:"Simbol (Yunani)", mixed:"Campur" };
+  const TYPE_LABEL = { letters:"Huruf", numbers:"Angka", symbols:"Simbol (Yunani)" };
+
+  const $ = (id) => document.getElementById(id);
+
+  const screens = {
+    home: $("screenHome"),
+    break: $("screenBreak"),
+    test: $("screenTest"),
+    results: $("screenResults"),
+    history: $("screenHistory"),
+    historyDetail: $("screenHistoryDetail"),
+  };
+
+  const modeSelect = $("modeSelect");
+  const btnStart = $("btnStart");
+  const btnHow = $("btnHow");
+  const howBox = $("howBox");
+
+  const btnHome = $("btnHome");
+  const btnHistory = $("btnHistory");
+
+  const breakTitle = $("breakTitle");
+  const breakSub = $("breakSub");
+  const breakRoundLbl = $("breakRoundLbl");
+  const breakCountdown = $("breakCountdown");
+  const breakNote = $("breakNote");
+  const btnSkipBreak = $("btnSkipBreak");
+
+  const lblRound = $("lblRound");
+  const lblType = $("lblType");
+  const timerEl = $("timer");
+  const kunciGrid = $("kunciGrid");
+  const soalChars = $("soalChars");
+  const answerButtons = $("answerButtons");
+
+  const btnStop = $("btnStop");
+  const btnPause = $("btnPause");
+  const pausedBadge = $("pausedBadge");
+  const pauseOverlay = $("pauseOverlay");
+
+  const resCorrect = $("resCorrect");
+  const resWrong = $("resWrong");
+  const resAttempts = $("resAttempts");
+  const resMode = $("resMode");
+  const resultsSub = $("resultsSub");
+  const chart = $("chart");
+  const chartMaxVal = $("chartMaxVal");
+  const roundList = $("roundList");
+  const btnSaveAndHome = $("btnSaveAndHome");
+  const btnGoHistory = $("btnGoHistory");
+
+  const historyList = $("historyList");
+  const historyEmpty = $("historyEmpty");
+  const btnBackHome2 = $("btnBackHome2");
+  const btnClearHistory = $("btnClearHistory");
+
+  const hdTitle = $("hdTitle");
+  const hdSub = $("hdSub");
+  const hdCorrect = $("hdCorrect");
+  const hdWrong = $("hdWrong");
+  const hdAttempts = $("hdAttempts");
+  const hdMode = $("hdMode");
+  const hdChart = $("hdChart");
+  const hdChartP = $("hdChartP");
+  const hdRoundList = $("hdRoundList");
+  const btnBackHistory = $("btnBackHistory");
+
+  const lastScore = $("lastScore");
+  const bestScore = $("bestScore");
+  const countSessions = $("countSessions");
+
+  function showScreen(name){
+    Object.entries(screens).forEach(([k, el]) => el.classList.toggle("hidden", k !== name));
+    window.scrollTo({top:0, behavior:"instant"});
+  }
+  function shuffle(arr){
+    for(let i=arr.length-1; i>0; i--){
+      const j = Math.floor(Math.random() * (i+1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+  function sampleUnique(pool, n){
+    const copy = pool.slice();
+    shuffle(copy);
+    return copy.slice(0, n);
+  }
+  function fmtTime(ms){
+    const totalSec = ms / 1000;
+    const mm = Math.floor(totalSec / 60);
+    const ss = Math.floor(totalSec % 60);
+    const tenths = Math.floor((totalSec - Math.floor(totalSec)) * 10);
+    return String(mm).padStart(2,"0") + ":" + String(ss).padStart(2,"0") + "." + String(tenths);
+  }
+  function nowISO(){ return new Date().toISOString(); }
+  function fmtDate(iso){
+    const d = new Date(iso);
+    const opts = { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" };
+    return d.toLocaleString("id-ID", opts);
+  }
+  function randInt(min, maxInclusive){
+    return Math.floor(Math.random() * (maxInclusive - min + 1)) + min;
+  }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, (m) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[m]));
+  }
+  function cryptoRandomId(){
+    if(window.crypto && crypto.getRandomValues){
+      const buf = new Uint8Array(12);
+      crypto.getRandomValues(buf);
+      return Array.from(buf).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+    return String(Date.now()) + "_" + String(Math.random()).slice(2);
+  }
+
+  const LS_KEY = "kecermatanHistory_v2";
+  function loadHistory(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw) return [];
+      const data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [];
+    }catch(e){ return []; }
+  }
+  function saveHistory(list){ localStorage.setItem(LS_KEY, JSON.stringify(list)); }
+  function addSession(session){ const list = loadHistory(); list.unshift(session); saveHistory(list); }
+  function clearHistory(){ localStorage.removeItem(LS_KEY); }
+
+  function renderLineChart(containerEl, points){
+    const w = 900, h = 260;
+    const padL = 40, padR = 14, padT = 16, padB = 34;
+    const innerW = w - padL - padR;
+    const innerH = h - padT - padB;
+
+    const maxY = Math.max(1, ...points);
+    const minY = 0;
+
+    const xStep = points.length > 1 ? innerW / (points.length - 1) : innerW;
+    const yScale = (v) => padT + innerH - ((v - minY) / (maxY - minY)) * innerH;
+
+    const pts = points.map((v, i) => ({ x: padL + xStep * i, y: yScale(v), v, i }));
+    const pathD = pts.map((p, idx) => `${idx===0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+
+    const gridCount = 5;
+    const grid = [];
+    for(let i=0;i<=gridCount;i++){
+      const v = minY + ((maxY - minY) * i / gridCount);
+      const y = yScale(v);
+      grid.push({y, v});
+    }
+    const labelX = pts.map(p => ({x:p.x, txt:`R${p.i+1}`}));
+
+    const svg = `
+      <svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Grafik benar per ronde">
+        <defs>
+          <linearGradient id="lineGradRed" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(209,26,42,0.95)" />
+            <stop offset="100%" stop-color="rgba(179,20,34,0.92)" />
+          </linearGradient>
+        </defs>
+
+        <rect x="0" y="0" width="${w}" height="${h}" rx="14" ry="14" fill="#ffffff"></rect>
+
+        ${grid.map(g => `
+          <line x1="${padL}" y1="${g.y.toFixed(1)}" x2="${w-padR}" y2="${g.y.toFixed(1)}" stroke="rgba(0,0,0,0.06)" stroke-width="1" />
+          <text x="${padL-10}" y="${(g.y+4).toFixed(1)}" text-anchor="end" font-size="11" fill="rgba(0,0,0,0.55)" font-family="ui-monospace,monospace">${Math.round(g.v)}</text>
+        `).join("")}
+
+        <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+innerH}" stroke="rgba(0,0,0,0.10)" />
+        <line x1="${padL}" y1="${padT+innerH}" x2="${w-padR}" y2="${padT+innerH}" stroke="rgba(0,0,0,0.10)" />
+
+        <path d="${pathD}" fill="none" stroke="url(#lineGradRed)" stroke-width="3" />
+
+        ${pts.map(p => `
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="5" fill="#fff" stroke="rgba(209,26,42,0.55)" stroke-width="1.2"></circle>
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="rgba(209,26,42,0.95)"></circle>
+        `).join("")}
+
+        ${labelX.map(l => `
+          <text x="${l.x.toFixed(1)}" y="${h-12}" text-anchor="middle" font-size="11" fill="rgba(0,0,0,0.65)" font-family="ui-monospace,monospace">${l.txt}</text>
+        `).join("")}
+      </svg>
+    `;
+    containerEl.innerHTML = svg;
+    return { maxY };
+  }
+
+  let app = {
+    mode: "letters",
+    currentRound: 0,
+    roundType: null,
+    key: [],
+    question: null,
+
+    attempts: 0,
+    correct: 0,
+    wrong: 0,
+
+    roundAttempts: 0,
+    roundCorrect: 0,
+    roundWrong: 0,
+
+    roundResults: [],
+    sessionStartISO: null,
+
+    phase: "home",
+    breakKind: "prep",
+
+    tickHandle: null,
+    endAt: 0,
+
+    paused: false,
+    pausedRemaining: 0,
+  };
+
+  function getPoolForType(type){
+    if(type === "letters") return LETTERS;
+    if(type === "numbers") return NUMBERS;
+    return SYMBOLS;
+  }
+  function getRoundTypeFromMode(mode){
+    if(mode === "mixed"){
+      const types = ["letters","numbers","symbols"];
+      return types[randInt(0, types.length-1)];
+    }
+    return mode;
+  }
+  function makeKey(type){
+    return sampleUnique(getPoolForType(type), 5);
+  }
+  function makeQuestion(key){
+    const missingIndex = randInt(0, 4);
+    const promptChars = key.filter((_, idx) => idx !== missingIndex);
+    shuffle(promptChars);
+    return { missingIndex, promptChars };
+  }
+
+  function renderKey(){
+    kunciGrid.innerHTML = "";
+    const labels = ["","","","",""];
+    labels.forEach((lbl, i) => {
+      const div = document.createElement("div");
+      div.className = "k";
+      div.innerHTML = `<div class="lbl">${lbl}</div><div class="ch">${escapeHtml(app.key[i])}</div>`;
+      kunciGrid.appendChild(div);
+    });
+  }
+  function renderAnswers(){
+    answerButtons.innerHTML = "";
+    const labels = ["A","B","C","D","E"];
+    labels.forEach((lbl, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = `${lbl}<span class="small">${escapeHtml(app.key[i])}</span>`;
+      b.addEventListener("click", () => onAnswer(i));
+      answerButtons.appendChild(b);
+    });
+  }
+  function setAnswersEnabled(enabled){
+    const buttons = answerButtons.querySelectorAll("button");
+    buttons.forEach(b => {
+      b.disabled = !enabled;
+      b.style.opacity = enabled ? "1" : "0.55";
+    });
+  }
+  function renderQuestion(){
+    soalChars.innerHTML = app.question.promptChars.map(c => escapeHtml(c)).join("  ");
+  }
+
+  function startSession(){
+    app.mode = modeSelect.value;
+    app.currentRound = 0;
+    app.roundResults = [];
+    app.correct = 0;
+    app.wrong = 0;
+    app.attempts = 0;
+    app.sessionStartISO = nowISO();
+    startBreak("prep");
+  }
+
+  function startBreak(kind){
+    app.phase = "break";
+    app.breakKind = kind;
+
+    app.paused = false;
+    pausedBadge.classList.add("hidden");
+    pauseOverlay.classList.add("hidden");
+    btnPause.textContent = "Pause";
+
+    const nextRound = app.currentRound + 1;
+    breakRoundLbl.textContent = `Ronde ${Math.min(nextRound, CFG.rounds)}/${CFG.rounds}`;
+
+    if(kind === "prep"){
+      breakTitle.textContent = "Persiapan";
+      breakSub.textContent = "Mulai dalam…";
+      breakNote.textContent = "Siapkan posisi mouse. Fokus ke kunci A–E.";
+    }else{
+      breakTitle.textContent = "Jeda";
+      breakSub.textContent = "Ronde berikutnya mulai dalam…";
+      breakNote.textContent = "Jika sudah siap, klik Skip jeda.";
+    }
+
+    showScreen("break");
+    app.endAt = performance.now() + CFG.breakMs;
+    if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+    tickBreak();
+  }
+
+  function tickBreak(){
+    const now = performance.now();
+    const remaining = Math.max(0, app.endAt - now);
+    breakCountdown.textContent = String(Math.ceil(remaining / 1000));
+    if(remaining <= 0){ startRound(); return; }
+    app.tickHandle = requestAnimationFrame(tickBreak);
+  }
+
+  function startRound(){
+    app.phase = "round";
+    app.currentRound += 1;
+
+    app.roundType = getRoundTypeFromMode(app.mode);
+    app.key = makeKey(app.roundType);
+
+    app.roundAttempts = 0;
+    app.roundCorrect = 0;
+    app.roundWrong = 0;
+
+    app.question = makeQuestion(app.key);
+
+    lblRound.textContent = `Ronde ${app.currentRound}/${CFG.rounds}`;
+    lblType.textContent = TYPE_LABEL[app.roundType] || "—";
+
+    renderKey();
+    renderAnswers();
+    renderQuestion();
+    setAnswersEnabled(true);
+
+    app.paused = false;
+    pausedBadge.classList.add("hidden");
+    pauseOverlay.classList.add("hidden");
+    btnPause.textContent = "Pause";
+
+    timerEl.textContent = fmtTime(CFG.roundMs);
+
+    showScreen("test");
+
+    app.endAt = performance.now() + CFG.roundMs;
+    if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+    tickRound();
+  }
+
+  function tickRound(){
+    const now = performance.now();
+    const remaining = Math.max(0, app.endAt - now);
+    timerEl.textContent = fmtTime(remaining);
+    if(remaining <= 0){ endRound(); return; }
+    app.tickHandle = requestAnimationFrame(tickRound);
+  }
+
+  function endRound(){
+    app.roundResults.push({
+      type: app.roundType,
+      key: app.key.slice(),
+      attempts: app.roundAttempts,
+      correct: app.roundCorrect,
+      wrong: app.roundWrong
+    });
+
+    if(app.currentRound >= CFG.rounds){ endSession(false); return; }
+    startBreak("break");
+  }
+
+  function buildSessionObject(endedEarly){
+    const totalCorrect = app.roundResults.reduce((s, r) => s + r.correct, 0);
+    const totalAttempts = app.roundResults.reduce((s, r) => s + r.attempts, 0);
+    const totalWrong = app.roundResults.reduce((s, r) => s + r.wrong, 0);
+
+    return {
+      id: cryptoRandomId(),
+      createdAt: nowISO(),
+      startedAt: app.sessionStartISO,
+      endedEarly: !!endedEarly,
+      mode: app.mode,
+      rounds: app.roundResults.map((r, idx) => ({
+        index: idx + 1,
+        type: r.type,
+        key: r.key,
+        attempts: r.attempts,
+        correct: r.correct,
+        wrong: r.wrong,
+      })),
+      totals: { correct: totalCorrect, wrong: totalWrong, attempts: totalAttempts }
+    };
+  }
+
+  function endSession(endedEarly){
+    app.phase = "results";
+    if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+
+    const session = buildSessionObject(endedEarly);
+    addSession(session);
+
+    renderResults(session);
+    refreshHomeStats();
+    showScreen("results");
+  }
+
+  function onAnswer(choiceIndex){
+    if(app.phase !== "round" || app.paused) return;
+
+    app.attempts += 1;
+    app.roundAttempts += 1;
+
+    if(choiceIndex === app.question.missingIndex){
+      app.correct += 1;
+      app.roundCorrect += 1;
+    }else{
+      app.wrong += 1;
+      app.roundWrong += 1;
+    }
+
+    app.question = makeQuestion(app.key);
+    renderQuestion();
+  }
+
+  function togglePause(){
+    if(app.phase !== "round") return;
+
+    if(!app.paused){
+      const now = performance.now();
+      const remaining = Math.max(0, app.endAt - now);
+      app.paused = true;
+      app.pausedRemaining = remaining;
+
+      if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+
+      pausedBadge.classList.remove("hidden");
+      pauseOverlay.classList.remove("hidden");
+      btnPause.textContent = "Resume";
+      setAnswersEnabled(false);
+      timerEl.textContent = fmtTime(remaining);
+    }else{
+      app.paused = false;
+      pausedBadge.classList.add("hidden");
+      pauseOverlay.classList.add("hidden");
+      btnPause.textContent = "Pause";
+      setAnswersEnabled(true);
+
+      app.endAt = performance.now() + app.pausedRemaining;
+      if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+      tickRound();
+    }
+  }
+
+  btnPause.addEventListener("click", togglePause);
+
+  btnSkipBreak.addEventListener("click", () => {
+    if(app.phase !== "break") return;
+    if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+    startRound();
+  });
+
+  btnStop.addEventListener("click", () => {
+    if(app.phase === "round"){
+      if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+      endRound();
+      if(app.currentRound < CFG.rounds){ endSession(true); }
+      return;
+    }
+    if(app.phase === "break"){
+      if(app.tickHandle) cancelAnimationFrame(app.tickHandle);
+      endSession(true);
+      return;
+    }
+  });
+
+  function renderResults(session){
+    const { totals, rounds, mode, endedEarly } = session;
+
+    resCorrect.textContent = String(totals.correct);
+    resWrong.textContent = String(totals.wrong);
+    resAttempts.textContent = String(totals.attempts);
+    resMode.textContent = MODE_LABEL[mode] || mode;
+
+    resultsSub.textContent = endedEarly
+      ? `Sesi dihentikan lebih awal (${rounds.length} ronde tersimpan)`
+      : `Selesai ${rounds.length} ronde`;
+
+    const points = rounds.map(r => r.correct);
+    const { maxY } = renderLineChart(chart, points.length ? points : [0]);
+    chartMaxVal.textContent = String(maxY);
+
+    roundList.innerHTML = "";
+    rounds.forEach(r => {
+      const item = document.createElement("div");
+      item.className = "item";
+      const typeLbl = TYPE_LABEL[r.type] || r.type;
+      item.innerHTML = `
+        <div class="left">
+          <div class="t">Ronde ${r.index} • ${typeLbl}</div>
+          <div class="s">Benar ${r.correct} • Salah ${r.wrong} • Attempt ${r.attempts}</div>
+        </div>
+        <div class="right">
+          <span class="chip">Kunci: ${escapeHtml(r.key.join(" "))}</span>
+        </div>
+      `;
+      roundList.appendChild(item);
+    });
+  }
+
+  function refreshHomeStats(){
+    const list = loadHistory();
+    countSessions.textContent = String(list.length);
+
+    if(list.length === 0){
+      lastScore.textContent = "—";
+      bestScore.textContent = "—";
+      return;
+    }
+
+    const last = list[0];
+    lastScore.textContent = String(last.totals.correct);
+
+    const best = list.reduce((best, s) => (s.totals.correct > best.totals.correct ? s : best), list[0]);
+    bestScore.textContent = String(best.totals.correct);
+  }
+
+  function renderHistory(){
+    const list = loadHistory();
+    historyList.innerHTML = "";
+    if(list.length === 0){
+      historyEmpty.classList.remove("hidden");
+      return;
+    }
+    historyEmpty.classList.add("hidden");
+
+    list.forEach(s => {
+      const modeLbl = MODE_LABEL[s.mode] || s.mode;
+      const created = fmtDate(s.createdAt);
+      const stopLbl = s.endedEarly ? " • (Stop)" : "";
+
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="left">
+          <div class="t">${created} • ${modeLbl}${stopLbl}</div>
+          <div class="s">Benar ${s.totals.correct} • Salah ${s.totals.wrong} • Attempt ${s.totals.attempts}</div>
+        </div>
+        <div class="right"><button class="secondary">Detail</button></div>
+      `;
+      item.querySelector("button").addEventListener("click", () => openHistoryDetail(s.id));
+      historyList.appendChild(item);
+    });
+  }
+
+  function openHistoryDetail(id){
+    const list = loadHistory();
+    const s = list.find(x => x.id === id);
+    if(!s){ showHistory(); return; }
+
+    hdTitle.textContent = "Detail Sesi";
+    hdSub.textContent = `${fmtDate(s.createdAt)} • ${MODE_LABEL[s.mode] || s.mode} ${s.endedEarly ? "• (Stop)" : ""}`;
+    hdCorrect.textContent = String(s.totals.correct);
+    hdWrong.textContent = String(s.totals.wrong);
+    hdAttempts.textContent = String(s.totals.attempts);
+    hdMode.textContent = MODE_LABEL[s.mode] || s.mode;
+
+    const points = s.rounds.map(r => r.correct);
+    renderLineChart(hdChart, points.length ? points : [0]);
+    hdChartP.textContent = `${s.rounds.length} ronde tersimpan`;
+
+    hdRoundList.innerHTML = "";
+    s.rounds.forEach(r => {
+      const typeLbl = TYPE_LABEL[r.type] || r.type;
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="left">
+          <div class="t">Ronde ${r.index} • ${typeLbl}</div>
+          <div class="s">Benar ${r.correct} • Salah ${r.wrong} • Attempt ${r.attempts}</div>
+        </div>
+        <div class="right"><span class="chip">Kunci: ${escapeHtml(r.key.join(" "))}</span></div>
+      `;
+      hdRoundList.appendChild(item);
+    });
+
+    showScreen("historyDetail");
+  }
+
+  function showHome(){ showScreen("home"); refreshHomeStats(); }
+  function showHistory(){ renderHistory(); showScreen("history"); }
+
+  btnHome.addEventListener("click", showHome);
+  btnHistory.addEventListener("click", showHistory);
+
+  btnBackHome2.addEventListener("click", showHome);
+  btnSaveAndHome.addEventListener("click", showHome);
+  btnGoHistory.addEventListener("click", showHistory);
+  btnBackHistory.addEventListener("click", showHistory);
+
+  btnClearHistory.addEventListener("click", () => {
+    if(!confirm("Hapus semua history? (tidak bisa dibatalkan)")) return;
+    clearHistory();
+    renderHistory();
+    refreshHomeStats();
+  });
+
+  btnStart.addEventListener("click", startSession);
+  btnHow.addEventListener("click", () => howBox.classList.toggle("hidden"));
+
+  refreshHomeStats();
+  showHome();
+})();
+</script>
+</body>
+</html>
